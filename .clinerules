@@ -1,0 +1,106 @@
+# CLINE RULES — minha-loja-api
+
+## 1. Contexto do projeto
+- Este projeto é uma API REST de loja desenvolvida em Node.js, Express 5, Mongoose e MongoDB, no contexto acadêmico da FATEC.
+- O projeto evolui gradualmente aula a aula. Preserve o código existente e prefira mudanças incrementais, claras e didáticas.
+- Mensagens de API, logs, comentários e documentação devem permanecer em português, salvo nomes técnicos, convenções de código ou quando o usuário solicitar outro idioma.
+- Use JavaScript com ES Modules (`import`/`export`) e mantenha o padrão de exports nomeados já adotado.
+
+
+## 2. Arquitetura e organização
+- Respeite a arquitetura existente `Route → Service → Model`.
+- Routes devem cuidar do HTTP, ler parâmetros/body, aplicar middlewares, chamar services e montar respostas. Evite colocar regras de negócio ou acesso direto ao banco nas routes.
+- Services devem concentrar regras de negócio e operações com os Models; não devem depender desnecessariamente de objetos HTTP (`req`, `res` ou `next`).
+- Models devem concentrar schemas, validações e configuração de persistência Mongoose.
+- Middlewares devem permanecer focados em responsabilidades transversais, como autenticação, logging e tratamento de erros.
+- Não crie Controllers, Repositories, DTOs, factories, novas camadas ou padrões arquiteturais sem necessidade concreta e justificativa explícita.
+- Antes de adicionar, remover ou reorganizar módulos, examine como os módulos existentes são implementados e integrados.
+- Ao adicionar um recurso, siga os padrões de nomes já existentes, como `<recurso>.route.js`, `<recurso>.service.js` e `<recurso>.model.js`, quando aplicável.
+- Ao registrar novos routers, respeite a ordem dos middlewares e handlers globais no ponto de inicialização da aplicação.
+
+
+## 3. Preservação do projeto
+- Não reescreva a aplicação nem substitua soluções funcionais por alternativas apenas por preferência.
+- Não faça refatorações abrangentes quando a tarefa pedir uma alteração localizada.
+- Preserve contratos existentes da API (rotas, payloads, status HTTP e formato de resposta), exceto quando a tarefa solicitar explicitamente uma mudança.
+- Considere os impactos sobre autenticação, autorização, logs, tratamento de erros e persistência antes de modificar um módulo.
+- Não remova código, arquivos, campos, endpoints ou dependências sem verificar seu uso e explicar a necessidade.
+- Evite mudanças não relacionadas ao pedido.
+
+
+## 4. Processo de trabalho
+- Antes de editar, leia os arquivos diretamente envolvidos e suas dependências relevantes.
+- Para tarefas de análise, auditoria ou planejamento, permaneça em modo somente leitura: não altere arquivos nem dados.
+- Para tarefas de implementação, primeiro resuma o entendimento, identifique arquivos que provavelmente serão afetados e proponha passos proporcionais à tarefa. Se o usuário pediu execução direta, prossiga com escopo limitado, sem pedir confirmação redundante.
+- Trabalhe em etapas pequenas e verificáveis. Ao concluir cada etapa, confira o diff e procure regressões.
+- Se encontrar uma ambiguidade que impeça uma decisão segura, pergunte apenas o necessário; não invente requisitos.
+- Se uma tarefa exigir uma mudança de arquitetura, explique o motivo, alternativas e impacto antes de realizá-la.
+
+
+## 5. Código e estilo
+- Siga o estilo, nomenclatura, organização, formatação e padrões já estabelecidos no repositório.
+- Prefira nomes claros e consistentes. Use camelCase para variáveis e funções, mantendo os nomes de arquivos e exports alinhados ao projeto.
+- Prefira funções pequenas com uma responsabilidade clara e evite duplicação.
+- Utilize `async/await` de forma consistente.
+- Não adicione comentários redundantes; comentários e documentação devem estar em português e explicar intenção ou decisões não óbvias.
+- Não introduza TypeScript, bibliotecas, ferramentas ou dependências novas sem que a tarefa exija e sem avaliar o custo/benefício.
+- Não altere o `package.json` ou arquivos de lock sem necessidade relacionada à tarefa.
+
+
+## 6. Tratamento de erros
+- Respeite a estratégia compartilhada existente com `AppError`, `notFoundHandler` e `errorHandler`.
+- No Express 5, aproveite o encaminhamento de erros de handlers assíncronos conforme o padrão existente; não adicione `try/catch` indiscriminadamente.
+- Erros de negócio devem seguir o padrão existente, incluindo mensagem e status HTTP apropriados.
+- Preserve, salvo solicitação explícita, o formato de resposta de erro `{ error: "mensagem" }`.
+- Não exponha stack traces, detalhes internos, credenciais ou informações sensíveis nas respostas da API.
+
+
+## 7. Segurança e dados
+- Nunca revele, copie para respostas, logs, relatórios ou commits valores de `.env`, tokens, senhas, chaves privadas ou outros secrets.
+- Não enfraqueça autenticação JWT, autorização, hashes bcrypt, validações ou proteção de dados para facilitar uma implementação.
+- Não retorne campos sensíveis de usuário, incluindo senha e resposta de segurança, nem altere suas proteções sem avaliar os impactos.
+- Valide entradas conforme o padrão atual e considere acesso indevido, injeção, enumeração de usuários e abuso de endpoints.
+- Não execute operações destrutivas, não apague dados, não altere banco de produção e não execute migrações sem solicitação explícita.
+- Se encontrar secrets expostos, informe apenas o local e o tipo do risco, sem revelar o valor.
+
+
+## 8. Autenticação, autorização e logs
+- Ao modificar rotas, verifique se precisam de `authenticate` e se as regras de autorização existentes se aplicam.
+- Preserve a restrição de acesso à própria conta implementada por `ensureOwnUser`, quando pertinente.
+- Nas operações de escrita, avalie e mantenha o padrão `logAction(action, resource)` quando aplicável.
+- Logs não devem armazenar senhas, tokens, respostas de segurança ou dados sensíveis desnecessários.
+- Falhas no registro de logs não devem comprometer a requisição principal, conforme o comportamento existente, salvo se o requisito mudar explicitamente.
+
+
+## 9. MongoDB e Mongoose
+- Utilize Mongoose e os Models existentes para persistência, seguindo os padrões do projeto.
+- Avalie validações, unicidade, índices, projeção de campos sensíveis e integridade antes de alterar schemas ou consultas.
+- Evite consultas sem limites ou retornos de grandes coleções; considere paginação quando o contexto justificar.
+- Não altere schemas, índices, documentos ou dados sem compreender os impactos e sem autorização da tarefa.
+- Não execute comandos de limpeza, reset, drop, seed destrutivo ou migração de dados por iniciativa própria.
+
+
+## 10. Dependências e comandos
+- Prefira dependências já instaladas.
+- Antes de sugerir uma nova dependência, explique por que as existentes não atendem.
+- Não instale pacotes sem necessidade e autorização explícita.
+- Utilize scripts existentes no `package.json`; não presuma que `npm test` executa testes reais.
+- Verifique se um comando pode alterar arquivos, banco de dados ou ambiente antes de executá-lo.
+- Não execute comandos destrutivos ou que possam expor secrets.
+
+
+## 11. Testes e validação
+- Após alterações autorizadas, execute verificações seguras e relevantes, se disponíveis.
+- Não afirme que testes passaram se não os executou.
+- Diferencie testes automatizados, verificações manuais e análise estática.
+- Se não houver testes automatizados para a funcionalidade, declare essa limitação e sugira testes pertinentes, sem inventar cobertura.
+- Revise o diff final para confirmar que não houve alterações fora do escopo.
+
+
+## 12. Respostas e entregas
+- Seja objetivo, técnico e organizado.
+- Em análise, fundamente conclusões com caminhos de arquivos e nomes de funções/métodos; não faça afirmações sem evidências.
+- Separe fatos confirmados, riscos, hipóteses e recomendações.
+- Ao propor mudanças, informe objetivo, arquivos afetados, impacto, riscos e validação.
+- Não declare uma tarefa concluída se houver etapas pendentes ou validações que não foram executadas.
+- Ao final de implementações, forneça um resumo das mudanças, arquivos afetados, verificações realizadas e limitações conhecidas.
